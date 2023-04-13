@@ -12,6 +12,8 @@ const DomainPage = () => {
     setValue(e.target.value);
   };
 
+  const temp = [];
+
   const arr = [
     {
       domain: "sagarjaid.ac",
