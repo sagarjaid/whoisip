@@ -90,7 +90,7 @@ export default function Home() {
         </nav>
         <div className="flex flex-col items-center justify-center gap-6 p-2 py-20 ">
           <div className="line flex flex-col text-center text-base font-extrabold xs:text-lg sdm:text-3xl sm:gap-3 md:text-4xl mdx:text-5xl ">
-            <span>WHOIS_IP </span>
+            <span>WHOIS_IP</span>
             <span className="text-sm">
               WHOIS Domain Lookup, Nameserver Lookup & IP Tools <br />
             </span>
@@ -106,13 +106,13 @@ export default function Home() {
               onChange={handleInput}
               autoComplete="off"
             />
-            <span calssName="flex items-center">
+            <span className="flex items-center">
               <button
                 disabled={true}
                 type="submit"
                 className="cursor-pointer px-4 bg-black w-min flex justify-center h-8 m:h-10 items-center rounded-full text-white"
               >
-                <span calssName="mr-1">Search</span>
+                <span className="mr-1">Search</span>
               </button>
             </span>
           </form>

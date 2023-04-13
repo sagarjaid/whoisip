@@ -1,7 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+export default async function handler(req, res) {
+  const timetaken = "Time taken by DOMAIN_DATA function";
 
-export default function handler(req, res) {
-  var Arr = [
+  const domain = req.body.domain || "google.com";
+
+  const Arr = [
     "ac",
     "academy",
     "accountant",
@@ -506,61 +508,28 @@ export default function handler(req, res) {
     "zone",
     "移动",
   ];
-  const domain = "sagarjaid.com";
+  console.time(timetaken);
 
-  // check if domin is valid or not
-
-  function getDomainName(url, suffixes) {
-    //find & remove protocol (http, ftp, etc.) and get domain
-    if (url.indexOf("://") > -1) {
-      var domain = url.split("/")[2];
-    } else {
-      var domain = url.split("/")[0];
-    }
-    //remove port number if exists
-    domain = domain.split(":")[0];
-    //remove www. if exists
-    domain = domain.replace("www.", "");
-    //check if domain name ends with any of the specified suffixes
-    var validSuffix = false;
-    for (var i = 0; i < suffixes.length; i++) {
-      var suffix = suffixes[i];
-      if (domain.endsWith(suffix)) {
-        validSuffix = true;
-        break;
+  try {
+    function concatenateDomainExtension(str, arr) {
+      const combinedArr = [];
+      for (let i = 0; i < arr.length; i++) {
+        combinedArr.push({
+          domain: str + "." + arr[i],
+          extenstion: "." + arr[i],
+          name: arr[i],
+        });
       }
+      return combinedArr;
     }
-    if (!validSuffix || domain.includes(" ")) {
-      return false;
-    }
-    var domainName = domain;
-    // get name without top-level domain
-    var parts = domainName.split(".");
-    var name = parts.slice(0, parts.length - 1).join(".");
-    var info = {
-      domain: domainName,
-      name: name,
-    };
-    return info;
+
+    const domainArr = concatenateDomainExtension(domain, Arr);
+
+    res.status(200).json({ data: domainArr });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to retrieve domain data." });
   }
 
-  const domainName = getDomainName(domain, Arr);
-
-  console.log(domainName);
-
-  function combineStringArray(str, arr) {
-    var combinedArr = [];
-    for (var i = 0; i < arr.length; i++) {
-      combinedArr.push({
-        domain: str + "." + arr[i],
-        extenstion: "." + arr[i],
-      });
-    }
-    return combinedArr;
-  }
-
-  if (domainName?.name) {
-    const domainArr = combineStringArray(domainName?.name, Arr);
-    res.status(200).json({ name: domainName, domainArr });
-  }
+  console.timeEnd(timetaken);
 }
