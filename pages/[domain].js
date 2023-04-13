@@ -10,6 +10,8 @@ const DomainPage = () => {
   const slug = router.query.domain;
 
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(true);
+
   const [domainName, setDomainName] = useState();
   const [domainData, SetDomainData] = useState();
   const [WhoisData, SetWhoisData] = useState();
@@ -607,7 +609,7 @@ const DomainPage = () => {
 
     // Get name without top-level domain
 
-    const parts = domainName.split(".");
+    const parts = domainName?.split(".");
     const name = parts.slice(0, -1).join(".");
     return {
       domain: domainName,
@@ -674,6 +676,7 @@ const DomainPage = () => {
       domainStatusArr.push(obj);
     }
     setDomainStatusData(domainStatusArr);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -692,7 +695,7 @@ const DomainPage = () => {
     setValue(e.target.value);
   };
 
-  if (!domainName)
+  if (domainName === false)
     return (
       <div className="text-center my-auto">
         please enter valid domain name...
@@ -702,56 +705,40 @@ const DomainPage = () => {
   return (
     <>
       <Head>
-        <title>Scrip AI — AI TikTok, Reel & YT Shorts Script Writer</title>
-        <meta
-          name="title"
-          content="Scrip AI — AI TikTok, Reel & YT Shorts Script Writer"
-        />
+        <title>{domainName?.domain}</title>
+        <meta name="title" content={domainName?.domain} />
         <meta
           name="description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content={domainName?.domain + " " + MetaData?.title}
         />
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://scripai.com/" />
-        <meta
-          property="og:title"
-          content="Scrip AI — AI TikTok, Reel & YT Shorts Script Writer"
-        />
+        <meta property="og:title" content={domainName?.domain} />
         <meta
           property="og:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content={domainName?.domain + " " + MetaData?.title}
         />
-        <meta
-          property="og:image"
-          content="https://scripai.com/scrip-ai-cover.png"
-        />
+        <meta property="og:image" content={MetaData?.image} />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://scripai.com/" />
-        <meta
-          property="twitter:title"
-          content="Scrip AI — AI TikTok, Reel & YT Shorts Script Writer"
-        />
+        <meta property="twitter:title" content={domainName?.domain} />
         <meta
           property="twitter:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content={domainName?.domain + " " + MetaData?.title}
         />
-        <meta
-          property="twitter:image"
-          content="https://scripai.com/scrip-ai-cover.png"
-        />
+        <meta property="twitter:image" content={MetaData?.image} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="icon" href="https://scripai.com/favicon.png" />
+        <link rel="icon" href={MetaData?.icon} />
 
         <meta
           name="google-site-verification"
-          content="Yp9e-xgEgjFSdaOwKgO0bv66QN5ScCpFxlGr0F8qUWk"
+          // content="Yp9e-xgEgjFSdaOwKgO0bv66QN5ScCpFxlGr0F8qUWk"
         />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4">
-        {/* <div className=" p-2 w-full text-center bg-yellow-400">NOTE: Due to overwhelming response we are out of capacity right now 🔥🔥🔥 please check us after 4 hours</div> */}
         <nav className="flex flex-col w-full gap-3  sm:flex-row  justify-between sm:items-center py-4">
           <a href="/">
             <span className="font-medium smd:text-xl py-2 px-4 text-white bg-black cursor-pointer rounded-full rounded-tl-sm ">
@@ -781,10 +768,11 @@ const DomainPage = () => {
           </form>
         </nav>
         <div className="flex flex-col gap-6 p-2 py-5 ">
-          <div className="flex gap-2 flex-wrap items-center">
+          <div className="flex gap-2 flex-wrap justify-between items-center">
             <div className="flex flex-col justify-start gap-3">
-              <div className="font-bold">{MetaData?.title}</div>
+              <h1 className=" text-2xl font-bold">{domainName?.domain}</h1>
               <div className="text-xs">{MetaData?.url}</div>
+              <div className="text-sm">{MetaData?.title}</div>
               <div className="text-sm">{MetaData?.description}</div>
               <div className="text-xs">
                 Keywords :{" "}
@@ -798,21 +786,23 @@ const DomainPage = () => {
 
             <img
               src={MetaData?.image}
-              className="w-[300px] h-[250px] object-cover"
+              className=" border w-[300px] h-[250px] object-cover"
             />
-            <div>
+            {/* <div>
               <div className="w-[300px] h-[250px] bg-white"></div>
             </div>
             <div>
               <div className="w-[300px] h-[250px] bg-white"></div>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex flex-col gap-1">
-            <div className="text-base underline">About {domainName.domain}</div>
+            <div className="text-base underline">
+              About {domainName?.domain}
+            </div>
             <div className="text-sm">
-              The website {domainName.name} ({domainName.domain}) was created on{" "}
-              {WhoisData?.creationDate || "undefined date"}. The website is
+              The website {domainName?.name} ({domainName?.domain}) was created
+              on {WhoisData?.creationDate || "undefined date"}. The website is
               owned by{" "}
               {WhoisData?.registrantName ||
                 WhoisData?.registrantOrganization ||
@@ -822,7 +812,7 @@ const DomainPage = () => {
               {WhoisData?.registrantCity || "undefined"}. The domain is
               registered with {WhoisData?.registrar || "undefined"}. and has a
               Domain ID of {WhoisData?.registryDomainId || "undefined"}. The
-              website's domain name {domainName.domain} is set to expire on{" "}
+              website's domain name {domainName?.domain} is set to expire on{" "}
               {WhoisData?.registrarRegistrationExpirationDate || "undefined"}.
               The website's Name Servers are {DNSData?.NS[0] || "undefined"} and{" "}
               {DNSData?.NS[1] || "undefined"}, which help direct traffic to the
@@ -946,7 +936,7 @@ const DomainPage = () => {
 
           <div className="flex flex-col gap-3">
             <div className="text-base border-black border-b-2">
-              Whois lookup {domainName.domain}
+              Whois lookup {domainName?.domain}
             </div>
             <div className="flex flex-col gap-3 border p-2">
               <div className="text-sm">
@@ -1100,7 +1090,7 @@ const DomainPage = () => {
 
           <div className="flex flex-col gap-3">
             <div className="text-base border-black">
-              Alternate domain extensions {domainName.domain}
+              Alternate domain extensions {domainName?.domain}
             </div>
             <span className="flex text-gray-800 flex-wrap gap-2">
               {domainData &&
