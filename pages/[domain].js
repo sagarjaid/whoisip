@@ -695,6 +695,10 @@ const DomainPage = () => {
     setValue(e.target.value);
   };
 
+  if (loading) {
+    <div className="text-center my-auto">Loading...</div>;
+  }
+
   if (domainName === false)
     return (
       <div className="text-center my-auto">
