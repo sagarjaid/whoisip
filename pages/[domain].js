@@ -742,7 +742,7 @@ const DomainPage = () => {
           // content="Yp9e-xgEgjFSdaOwKgO0bv66QN5ScCpFxlGr0F8qUWk"
         />
       </Head>
-      <main className="m-auto flex max-w-5xl flex-col px-4">
+      <main className="m-auto flex max-w-5xl flex-col px-4 ">
         <nav className="flex flex-col w-full gap-3  sm:flex-row  justify-between sm:items-center py-4">
           <a href="/">
             <span className="font-medium smd:text-xl py-2 px-4 text-white bg-black cursor-pointer rounded-full rounded-tl-sm ">
@@ -771,7 +771,7 @@ const DomainPage = () => {
             </span>
           </form>
         </nav>
-        <div className="flex flex-col gap-6 p-2 py-5 ">
+        <div className="flex flex-col gap-6 py-5 overflow-hidden ">
           <div className="flex gap-2 flex-wrap justify-between items-center">
             <div className="flex flex-col justify-start gap-3">
               <h1 className=" text-2xl font-bold">{domainName?.domain}</h1>
