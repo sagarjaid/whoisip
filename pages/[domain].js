@@ -677,7 +677,13 @@ const DomainPage = () => {
     SetDNSData(resDNSData.data);
     console.log(resDNSData, "resDNSData");
 
-    const res6 = await fetch("/api/getDomainData", options);
+    const res6 = await fetch("/api/getDomainData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ domain: domainName?.name }),
+    });
     const DomainData = await res6.json();
 
     SetDomainData(DomainData.data);

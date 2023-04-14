@@ -66,7 +66,7 @@ const Privacy = () => {
                 </a>
               </li>
               <li className="hover:font-semibold text-sm px-3 py-1 border border-black rounded-full">
-                <a href="https://tally.so/r/n0d8bZ" target="_blank">
+                <a href="/" target="_blank">
                   I'm feeling Luck!
                 </a>
               </li>

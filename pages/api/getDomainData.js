@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   const timetaken = "Time taken by DOMAIN_DATA function";
 
-  const domain = req.body.domain || "google.com";
+  const domain = req.body.domain || "google";
 
   const Arr = [
     "ac",
