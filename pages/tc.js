@@ -6,42 +6,42 @@ const TC = () => {
   return (
     <>
       <Head>
-        <title>Terms and Conditions — Scrip AI</title>
-        <meta name="title" content="Terms and Conditions — Scrip AI" />
+        <title>Terms and Conditions — WHOIS OS</title>
+        <meta name="title" content="Terms and Conditions — WHOIS OS" />
         <meta
           name="description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://scripai.com/tc" />
-        <meta property="og:title" content="Terms and Conditions — Scrip AI" />
+        <meta property="og:url" content="https://whoisos.com/tc" />
+        <meta property="og:title" content="Terms and Conditions — WHOIS OS" />
         <meta
           property="og:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
         <meta
           property="og:image"
-          content="https://scripai.com/scrip-ai-cover.png"
+          content="https://whoisos.com/whois-cover.png"
         />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://scripai.com/tc" />
+        <meta property="twitter:url" content="https://whoisos.com/tc" />
         <meta
           property="twitter:title"
-          content="Terms and Conditions — Scrip AI"
+          content="Terms and Conditions — WHOIS OS"
         />
         <meta
           property="twitter:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
         <meta
           property="twitter:image"
-          content="https://scripai.com/scrip-ai-cover.png"
+          content="https://whoisos.com/whois-cover.png"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="icon" href="https://scripai.com/favicon.png" />
+        <link rel="icon" href="https://whoisos.com/favicon.png" />
 
         <meta
           name="google-site-verification"
@@ -49,16 +49,14 @@ const TC = () => {
         />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4">
-        <nav className="flex items-center justify-between py-4">
+        <nav className="flex row justify-between items-center py-4">
           <a href="/">
-            <img src="/scrip.svg" className="w-[80px]" />
+            <span className="font-medium smd:text-xl py-2 px-4 text-white bg-black cursor-pointer rounded-full rounded-tl-sm ">
+              WHOIS_OS
+            </span>
           </a>
-          <div>
-            <ul className="flex items-center gap-4 text-sm">
-              {/* <li className="cursor-pointer">Pricing</li> */}
-              <ll className="rounded-md bg-rose-50 p-1 px-2">
-                <a href="/new">What's new</a>
-              </ll>
+          <span>
+            <ul className="flex row items-center gap-4 cursor-pointer">
               <li className="hidden sd:inline">
                 <a
                   href="https://www.producthunt.com/posts/scrip-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-scrip&#0045;ai"
@@ -70,28 +68,13 @@ const TC = () => {
                   />
                 </a>
               </li>
-              <li className="flex w-fit items-center gap-1 rounded-full bg-rose-500 p-1 px-3	 text-white shadow-sm ">
-                <a href="/app">Try for free!</a>
-                <a href="/app">
-                  <svg
-                    className="w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                    />
-                  </svg>
+              <li className="hover:font-semibold text-sm px-3 py-1 border border-black rounded-full">
+                <a href="https://tally.so/r/n0d8bZ" target="_blank">
+                  I'm feeling Luck!
                 </a>
               </li>
             </ul>
-          </div>
+          </span>
         </nav>
         <div className="flex flex-col items-start justify-center gap-6 p-2 py-10 ">
           <div className="flex flex-col gap-2 text-2xl font-medium">
@@ -99,14 +82,14 @@ const TC = () => {
             <div className="text-sm">Updated on 1 April, 2023</div>
           </div>
           <p>
-            Welcome to Scrip AI! .These terms and conditions outline the rules
-            and regulations for the use of Scrip AI's Website, located at
-            https://scripai.com/.
+            Welcome to WHOIS OS! .These terms and conditions outline the rules
+            and regulations for the use of WHOIS OS's Website, located at
+            https://whoisos.com/.
           </p>
 
           <p>
             By accessing this website we assume you accept these terms and
-            conditions. Do not continue to use Scrip AI if you do not agree to
+            conditions. Do not continue to use WHOIS OS if you do not agree to
             take all of the terms and conditions stated on this page.
           </p>
 
@@ -133,8 +116,8 @@ const TC = () => {
           </h3>
 
           <p>
-            We employ the use of cookies. By accessing Scrip AI, you agreed to
-            use cookies in agreement with the Scrip AI's Privacy Policy.
+            We employ the use of cookies. By accessing WHOIS OS, you agreed to
+            use cookies in agreement with the WHOIS OS's Privacy Policy.
           </p>
 
           <p>
@@ -150,19 +133,19 @@ const TC = () => {
           </h3>
 
           <p>
-            Unless otherwise stated, Scrip AI and/or its licensors own the
-            intellectual property rights for all material on Scrip AI. All
+            Unless otherwise stated, WHOIS OS and/or its licensors own the
+            intellectual property rights for all material on WHOIS OS. All
             intellectual property rights are reserved. You may access this from
-            Scrip AI for your own personal use subjected to restrictions set in
+            WHOIS OS for your own personal use subjected to restrictions set in
             these terms and conditions.
           </p>
 
           <p>You must not:</p>
           <ul>
-            <li>Republish material from Scrip AI</li>
-            <li>Sell, rent or sub-license material from Scrip AI</li>
-            <li>Reproduce, duplicate or copy material from Scrip AI</li>
-            <li>Redistribute content from Scrip AI</li>
+            <li>Republish material from WHOIS OS</li>
+            <li>Sell, rent or sub-license material from WHOIS OS</li>
+            <li>Reproduce, duplicate or copy material from WHOIS OS</li>
+            <li>Redistribute content from WHOIS OS</li>
           </ul>
 
           <p>This Agreement shall begin on the date hereof.</p>
@@ -170,11 +153,11 @@ const TC = () => {
           <p>
             Parts of this website offer an opportunity for users to post and
             exchange opinions and information in certain areas of the website.
-            Scrip AI does not filter, edit, publish or review Comments prior to
+            WHOIS OS does not filter, edit, publish or review Comments prior to
             their presence on the website. Comments do not reflect the views and
-            opinions of Scrip AI,its agents and/or affiliates. Comments reflect
+            opinions of WHOIS OS,its agents and/or affiliates. Comments reflect
             the views and opinions of the person who post their views and
-            opinions. To the extent permitted by applicable laws, Scrip AI shall
+            opinions. To the extent permitted by applicable laws, WHOIS OS shall
             not be liable for the Comments or for any liability, damages or
             expenses caused and/or suffered as a result of any use of and/or
             posting of and/or appearance of the Comments on this website.
@@ -204,7 +187,7 @@ const TC = () => {
           </ul>
 
           <p>
-            You hereby grant Scrip AI a non-exclusive license to use, reproduce,
+            You hereby grant WHOIS OS a non-exclusive license to use, reproduce,
             edit and authorize others to use, reproduce and edit any of your
             Comments in any and all forms, formats or media.
           </p>
@@ -264,7 +247,7 @@ const TC = () => {
             that: (a) the link would not make us look unfavorably to ourselves
             or to our accredited businesses; (b) the organization does not have
             any negative records with us; (c) the benefit to us from the
-            visibility of the hyperlink compensates the absence of Scrip AI; and
+            visibility of the hyperlink compensates the absence of WHOIS OS; and
             (d) the link is in the context of general resource information.
           </p>
 
@@ -279,7 +262,7 @@ const TC = () => {
           <p>
             If you are one of the organizations listed in paragraph 2 above and
             are interested in linking to our website, you must inform us by
-            sending an e-mail to Scrip AI. Please include your name, your
+            sending an e-mail to WHOIS OS. Please include your name, your
             organization name, contact information as well as the URL of your
             site, a list of any URLs from which you intend to link to our
             Website, and a list of the URLs on our site to which you would like
@@ -299,7 +282,7 @@ const TC = () => {
           </ul>
 
           <p>
-            No use of Scrip AI's logo or other artwork will be allowed for
+            No use of WHOIS OS's logo or other artwork will be allowed for
             linking absent a trademark license agreement.
           </p>
 
@@ -405,15 +388,15 @@ const TC = () => {
             </a>
             <span>|</span>
 
-            <a href="https://scripai.com/privacy" target="_blank">
+            <a href="https://whoisos.com/privacy" target="_blank">
               Privacy Policy
             </a>
             <span>|</span>
-            <a href="https://scripai.com/tc" target="_blank">
+            <a href="https://whoisos.com/tc" target="_blank">
               Terms and Conditions
             </a>
             <span>|</span>
-            <a href="https://scripai.com/gdrp" target="_blank">
+            <a href="https://whoisos.com/gdrp" target="_blank">
               GDRP Policy
             </a>
           </div>

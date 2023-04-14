@@ -6,39 +6,39 @@ const GDRP = () => {
   return (
     <>
       <Head>
-        <title>GDRP Policy — Scrip AI</title>
-        <meta name="title" content="GDRP Policy — Scrip AI" />
+        <title>GDRP Policy — WHOIS OS</title>
+        <meta name="title" content="GDRP Policy — WHOIS OS" />
         <meta
           name="description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://scripai.com/gdrp" />
-        <meta property="og:title" content="GDRP Policy — Scrip AI" />
+        <meta property="og:url" content="https://whoisos.com/gdrp" />
+        <meta property="og:title" content="GDRP Policy — WHOIS OS" />
         <meta
           property="og:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
         <meta
           property="og:image"
-          content="https://scripai.com/scrip-ai-cover.png"
+          content="https://whoisos.com/whois-cover.png"
         />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://scripai.com/gdrp" />
-        <meta property="twitter:title" content="GDRP Policy — Scrip AI" />
+        <meta property="twitter:url" content="https://whoisos.com/gdrp" />
+        <meta property="twitter:title" content="GDRP Policy — WHOIS OS" />
         <meta
           property="twitter:description"
-          content="10X faster & better way to write viral 30 sec short video script for Instagram Reel, TikTok and Youtube shorts"
+          content="WHOIS Domain Lookup, Nameserver Lookup & IP Tools"
         />
         <meta
           property="twitter:image"
-          content="https://scripai.com/scrip-ai-cover.png"
+          content="https://whoisos.com/whois-cover.png"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="icon" href="https://scripai.com/favicon.png" />
+        <link rel="icon" href="https://whoisos.com/favicon.png" />
 
         <meta
           name="google-site-verification"
@@ -46,16 +46,14 @@ const GDRP = () => {
         />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4">
-        <nav className="flex items-center justify-between py-4">
+        <nav className="flex row justify-between items-center py-4">
           <a href="/">
-            <img src="/scrip.svg" className="w-[80px]" />
+            <span className="font-medium smd:text-xl py-2 px-4 text-white bg-black cursor-pointer rounded-full rounded-tl-sm ">
+              WHOIS_OS
+            </span>
           </a>
-          <div>
-            <ul className="flex items-center gap-4 text-sm">
-              {/* <li className="cursor-pointer">Pricing</li> */}
-              <ll className="rounded-md bg-rose-50 p-1 px-2">
-                <a href="/new">What's new</a>
-              </ll>
+          <span>
+            <ul className="flex row items-center gap-4 cursor-pointer">
               <li className="hidden sd:inline">
                 <a
                   href="https://www.producthunt.com/posts/scrip-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-scrip&#0045;ai"
@@ -67,28 +65,13 @@ const GDRP = () => {
                   />
                 </a>
               </li>
-              <li className="flex w-fit items-center gap-1 rounded-full bg-rose-500 p-1 px-3	 text-white shadow-sm ">
-                <a href="/app">Try for free!</a>
-                <a href="/app">
-                  <svg
-                    className="w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                    />
-                  </svg>
+              <li className="hover:font-semibold text-sm px-3 py-1 border border-black rounded-full">
+                <a href="https://tally.so/r/n0d8bZ" target="_blank">
+                  I'm feeling Luck!
                 </a>
               </li>
             </ul>
-          </div>
+          </span>
         </nav>
         <div className="flex flex-col items-start justify-center gap-6 p-2 py-10 ">
           <div className="flex flex-col gap-2 text-2xl font-medium">
@@ -97,33 +80,33 @@ const GDRP = () => {
           </div>
 
           <p>
-            At Scrip AI, accessible from https://scripai.com/, one of our main
+            At WHOIS OS, accessible from https://whoisos.com/, one of our main
             priorities is the privacy of our visitors. This Privacy Policy
             document contains types of information that is collected and
-            recorded by Scrip AI and how we use it.
+            recorded by WHOIS OS and how we use it.
           </p>
 
           <h2>General Data Protection Regulation (GDPR)</h2>
           <p>We are a Data Controller of your information.</p>
 
           <p>
-            Scrip AI legal basis for collecting and using the personal
+            WHOIS OS legal basis for collecting and using the personal
             information described in this Privacy Policy depends on the Personal
             Information we collect and the specific context in which we collect
             the information:
           </p>
           <ul>
-            <li>Scrip AI needs to perform a contract with you</li>
-            <li>You have given Scrip AI permission to do so</li>
+            <li>WHOIS OS needs to perform a contract with you</li>
+            <li>You have given WHOIS OS permission to do so</li>
             <li>
-              Processing your personal information is in Scrip AI legitimate
+              Processing your personal information is in WHOIS OS legitimate
               interests
             </li>
-            <li>Scrip AI needs to comply with the law</li>
+            <li>WHOIS OS needs to comply with the law</li>
           </ul>
 
           <p>
-            Scrip AI will retain your personal information only for as long as
+            WHOIS OS will retain your personal information only for as long as
             is necessary for the purposes set out in this Privacy Policy. We
             will retain and use your information to the extent necessary to
             comply with our legal obligations, resolve disputes, and enforce our
@@ -155,7 +138,7 @@ const GDRP = () => {
           <h2>Cookies and Web Beacons</h2>
 
           <p>
-            Like any other website, Scrip AI uses "cookies". These cookies are
+            Like any other website, WHOIS OS uses "cookies". These cookies are
             used to store information including visitors' preferences, and the
             pages on the website that the visitor accessed or visited. The
             information is used to optimize the users' experience by customizing
@@ -202,13 +185,13 @@ const GDRP = () => {
 
           <p>
             You may consult this list to find the Privacy Policy for each of the
-            advertising partners of Scrip AI.
+            advertising partners of WHOIS OS.
           </p>
 
           <p>
             Third-party ad servers or ad networks uses technologies like
             cookies, JavaScript, or Web Beacons that are used in their
-            respective advertisements and links that appear on Scrip AI, which
+            respective advertisements and links that appear on WHOIS OS, which
             are sent directly to users' browser. They automatically receive your
             IP address when this occurs. These technologies are used to measure
             the effectiveness of their advertising campaigns and/or to
@@ -217,14 +200,14 @@ const GDRP = () => {
           </p>
 
           <p>
-            Note that Scrip AI has no access to or control over these cookies
+            Note that WHOIS OS has no access to or control over these cookies
             that are used by third-party advertisers.
           </p>
 
           <h2>Third Party Privacy Policies</h2>
 
           <p>
-            Scrip AI's Privacy Policy does not apply to other advertisers or
+            WHOIS OS's Privacy Policy does not apply to other advertisers or
             websites. Thus, we are advising you to consult the respective
             Privacy Policies of these third-party ad servers for more detailed
             information. It may include their practices and instructions about
@@ -247,7 +230,7 @@ const GDRP = () => {
           </p>
 
           <p>
-            Scrip AI does not knowingly collect any Personal Identifiable
+            WHOIS OS does not knowingly collect any Personal Identifiable
             Information from children under the age of 13. If you think that
             your child provided this kind of information on our website, we
             strongly encourage you to contact us immediately and we will do our
@@ -259,7 +242,7 @@ const GDRP = () => {
           <p>
             Our Privacy Policy applies only to our online activities and is
             valid for visitors to our website with regards to the information
-            that they shared and/or collect in Scrip AI. This policy is not
+            that they shared and/or collect in WHOIS OS. This policy is not
             applicable to any information collected offline or via channels
             other than this website.
           </p>
@@ -277,15 +260,15 @@ const GDRP = () => {
             </a>
             <span>|</span>
 
-            <a href="https://scripai.com/privacy" target="_blank">
+            <a href="https://whoisos.com/privacy" target="_blank">
               Privacy Policy
             </a>
             <span>|</span>
-            <a href="https://scripai.com/tc" target="_blank">
+            <a href="https://whoisos.com/tc" target="_blank">
               Terms and Conditions
             </a>
             <span>|</span>
-            <a href="https://scripai.com/gdrp" target="_blank">
+            <a href="https://whoisos.com/gdrp" target="_blank">
               GDRP Policy
             </a>
           </div>

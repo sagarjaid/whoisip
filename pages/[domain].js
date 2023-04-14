@@ -12,6 +12,9 @@ const DomainPage = () => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [domainInputUrl, setDomainInputUrl] = useState();
+  const [err, SetErr] = useState(false);
+
   const [domainName, setDomainName] = useState();
   const [domainData, SetDomainData] = useState();
   const [WhoisData, SetWhoisData] = useState();
@@ -584,6 +587,29 @@ const DomainPage = () => {
   //   );
   // }
 
+  const handleInput = (e) => {
+    console.log(e.target.value);
+    setValue(e.target.value);
+    let domainurl = getDomainName(e.target.value, domainArr);
+    console.log(domainurl);
+    SetErr(!domainurl);
+    if (domainurl?.domain) {
+      setDomainInputUrl(domainurl?.domain);
+    }
+  };
+
+  const handlekeyDown = (e) => {
+    if (e.keyCode === 13) {
+      domainInputUrl &&
+        !err &&
+        (window.location.pathname = `/${domainInputUrl}`);
+    }
+  };
+
+  const handleUrl = () => {
+    domainInputUrl && !err && (window.location.pathname = `/${domainInputUrl}`);
+  };
+
   const getDomainName = (url, suffixes) => {
     // Find & remove protocol (http, ftp, etc.) and get domain
     let domain = "";
@@ -691,10 +717,6 @@ const DomainPage = () => {
     }
   }, [slug]);
 
-  const handleInput = (e) => {
-    setValue(e.target.value);
-  };
-
   if (loading) {
     <div className="text-center my-auto">Loading...</div>;
   }
@@ -717,7 +739,7 @@ const DomainPage = () => {
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://scripai.com/" />
+        <meta property="og:url" content="https://whoisos.com/" />
         <meta property="og:title" content={domainName?.domain} />
         <meta
           property="og:description"
@@ -726,7 +748,7 @@ const DomainPage = () => {
         <meta property="og:image" content={MetaData?.image} />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://scripai.com/" />
+        <meta property="twitter:url" content="https://whoisos.com/" />
         <meta property="twitter:title" content={domainName?.domain} />
         <meta
           property="twitter:description"
@@ -743,16 +765,17 @@ const DomainPage = () => {
         />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4 ">
-        <nav className="flex flex-col w-full gap-3  sm:flex-row  justify-between sm:items-center py-4">
+        <nav className="flex flex-col w-full gap-6  sm:flex-row  justify-between sm:items-center py-4">
           <a href="/">
             <span className="font-medium smd:text-xl py-2 px-4 text-white bg-black cursor-pointer rounded-full rounded-tl-sm ">
-              WHOIS_IP
+              WHOIS_OS
             </span>
           </a>
-          <form className="text-gray-600 w-full grow rounded-md border-2 sm:border-2 border-black  flex justify-around items-center px-1 pr-0">
+          <div className="text-gray-600 w-full grow rounded-full border-2 sm:border-2 border-black  flex justify-around items-center px-1 pr-0">
             <input
               type="text"
               name="url"
+              onKeyDown={handlekeyDown}
               title="Please enter correct tiktok url"
               placeholder="type domain name or paste url..."
               className="w-full pl-4 rounded-l-full text-sm font-light focus:outline-none text-black placeholder:text-slate-600 placeholder:font-light"
@@ -762,29 +785,37 @@ const DomainPage = () => {
             />
             <span className="flex items-center">
               <button
-                disabled={true}
-                type="submit"
-                className="cursor-pointer px-4 bg-black w-min flex justify-center h-8 m:h-10 items-center  text-white"
+                onClick={handleUrl}
+                className="cursor-pointer px-4 bg-black w-min rounded-r-full flex justify-center h-10 sm:h-8 items-center  text-white"
               >
                 <span className="mr-1">Search</span>
               </button>
             </span>
-          </form>
+          </div>
         </nav>
+        {err && value && (
+          <div className="text-xs text-left sm:text-right text-red-600">
+            please enter valid domain name!
+          </div>
+        )}
         <div className="flex flex-col gap-6 py-5 overflow-hidden ">
-          <div className="flex gap-2 flex-wrap justify-between items-center">
+          <div className="flex gap-2 flex-wrap justify-between items-center sm:items-start">
             <div className="flex flex-col justify-start gap-3">
               <h1 className=" text-2xl font-bold">{domainName?.domain}</h1>
               <div className="text-xs">{MetaData?.url}</div>
-              <div className="text-sm">{MetaData?.title}</div>
+              <div className="text-sm">
+                {MetaData?.title || "no title found"}
+              </div>
               <div className="text-sm">{MetaData?.description}</div>
               <div className="text-xs">
                 Keywords :{" "}
-                {MetaData?.keywords?.map((el) => (
-                  <span key={el} className="pr-1">
-                    {el}
-                  </span>
-                ))}
+                {MetaData?.keywords
+                  ? MetaData?.keywords?.map((el) => (
+                      <span key={el} className="pr-1">
+                        {el}
+                      </span>
+                    ))
+                  : "no keywords found in meta-data"}
               </div>
             </div>
 
@@ -813,15 +844,16 @@ const DomainPage = () => {
                 "undefined"}{" "}
               which is based in{" "}
               {WhoisData?.registrantStateProvince || "undefined"}{" "}
-              {WhoisData?.registrantCity || "undefined"}. The domain is
+              {WhoisData?.registrantCity || "location"}. The domain is
               registered with {WhoisData?.registrar || "undefined"}. and has a
               Domain ID of {WhoisData?.registryDomainId || "undefined"}. The
               website's domain name {domainName?.domain} is set to expire on{" "}
               {WhoisData?.registrarRegistrationExpirationDate || "undefined"}.
-              The website's Name Servers are {DNSData?.NS[0] || "undefined"} and{" "}
-              {DNSData?.NS[1] || "undefined"}, which help direct traffic to the
-              website. The information on the website's domain name,
-              registration, and ownership can be found through publicly
+              The website's Name Servers are{" "}
+              {DNSData?.NS ? DNSData?.NS[0] : "undefined"} and{" "}
+              {DNSData?.NS ? DNSData?.NS[1] : "undefined"}, which help direct
+              traffic to the website. The information on the website's domain
+              name, registration, and ownership can be found through publicly
               available records.
             </div>
           </div>
@@ -911,16 +943,16 @@ const DomainPage = () => {
                 Name Server
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS[0] || "undefined"}
+                Name Server: {DNSData?.NS ? DNSData?.NS[0] : "undefined"}
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS[1] || "undefined"}
+                Name Server: {DNSData?.NS ? DNSData?.NS[1] : "undefined"}
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS[2]}
+                Name Server: {DNSData?.NS ? DNSData?.NS[2] : "undefined"}
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS[3]}
+                Name Server: {DNSData?.NS ? DNSData?.NS[3] : "undefined"}
               </div>
             </div>
             {/* <div className=" flex flex-col text-sm gap-2 grow">
@@ -1036,7 +1068,7 @@ const DomainPage = () => {
                 {WhoisData?.adminPostalCode || "undefined"}
               </div>
               <div className="text-sm">
-                WHOIS_IP Last Upade:{" "}
+                WHOIS_OS Last Upade:{" "}
                 {WhoisData?.lastUpdateOfWhoisDatabase || "undefined"}
               </div>
             </div>
@@ -1143,15 +1175,15 @@ const DomainPage = () => {
             </a>
             <span>|</span>
 
-            <a href="https://scripai.com/privacy" target="_blank">
+            <a href="https://whoisos.com/privacy" target="_blank">
               privacy policy
             </a>
             <span>|</span>
-            <a href="https://scripai.com/tc" target="_blank">
+            <a href="https://whoisos.com/tc" target="_blank">
               terms and conditions
             </a>
             <span>|</span>
-            <a href="https://scripai.com/gdrp" target="_blank">
+            <a href="https://whoisos.com/gdrp" target="_blank">
               GDRP policy
             </a>
           </div>
