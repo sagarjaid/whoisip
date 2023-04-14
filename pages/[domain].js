@@ -644,71 +644,73 @@ const DomainPage = () => {
   };
 
   const getData = async (url) => {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ domain: url }),
-    };
-
-    const res1 = await fetch("/api/getWhoisData", options);
-    const resWhoisData = await res1.json();
-    SetWhoisData(resWhoisData.data);
-    console.log(resWhoisData, "resWhoisData");
-
-    const res2 = await fetch("/api/getSSLData", options);
-    const resSSLData = await res2.json();
-    SetSSLData(resSSLData.data);
-    console.log(resSSLData, "resSSLData");
-
-    const res3 = await fetch("/api/getMetaData", options);
-    const resMetaData = await res3.json();
-    SetMetaData(resMetaData.data);
-    console.log(resMetaData, "resMetaData");
-
-    const res4 = await fetch("/api/getIpLocationData", options);
-    const resIpLocationData = await res4.json();
-    SetIpLocationData(resIpLocationData.data);
-    console.log(resIpLocationData, "resIpLocationData");
-
-    const res5 = await fetch("/api/getDNSData", options);
-    const resDNSData = await res5.json();
-    SetDNSData(resDNSData.data);
-    console.log(resDNSData, "resDNSData");
-
-    const res6 = await fetch("/api/getDomainData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ domain: domainName?.name }),
-    });
-    const DomainData = await res6.json();
-
-    SetDomainData(DomainData.data);
-    console.log(DomainData, "resDomainData");
-
-    const res7 = await fetch("/api/getHeadersData ", options);
-    const resHeaderData = await res7.json();
-    SetHeaderData(resHeaderData.data.req);
-    console.log(resHeaderData, "resIpLocationData");
-
-    const domainStatus = resWhoisData?.data?.domainStatus;
-
-    const domainSArr = domainStatus?.split(" ");
-
-    const domainStatusArr = [];
-
-    for (let i = 0; i < domainSArr?.length; i += 2) {
-      const obj = {
-        domainStatus: domainSArr[i],
-        url: domainSArr[i + 1],
+    if (url) {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ domain: url.domain }),
       };
-      domainStatusArr.push(obj);
+
+      const res1 = await fetch("/api/getWhoisData", options);
+      const resWhoisData = await res1.json();
+      SetWhoisData(resWhoisData.data);
+      console.log(resWhoisData, "resWhoisData");
+
+      const res2 = await fetch("/api/getSSLData", options);
+      const resSSLData = await res2.json();
+      SetSSLData(resSSLData.data);
+      console.log(resSSLData, "resSSLData");
+
+      const res3 = await fetch("/api/getMetaData", options);
+      const resMetaData = await res3.json();
+      SetMetaData(resMetaData.data);
+      console.log(resMetaData, "resMetaData");
+
+      const res4 = await fetch("/api/getIpLocationData", options);
+      const resIpLocationData = await res4.json();
+      SetIpLocationData(resIpLocationData.data);
+      console.log(resIpLocationData, "resIpLocationData");
+
+      const res5 = await fetch("/api/getDNSData", options);
+      const resDNSData = await res5.json();
+      SetDNSData(resDNSData.data);
+      console.log(resDNSData, "resDNSData");
+
+      const res6 = await fetch("/api/getDomainData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ domain: url?.name }),
+      });
+      const DomainData = await res6.json();
+
+      SetDomainData(DomainData.data);
+      console.log(DomainData, "resDomainData");
+
+      const res7 = await fetch("/api/getHeadersData ", options);
+      const resHeaderData = await res7.json();
+      SetHeaderData(resHeaderData.data.req);
+      console.log(resHeaderData, "resIpLocationData");
+
+      const domainStatus = resWhoisData?.data?.domainStatus;
+
+      const domainSArr = domainStatus?.split(" ");
+
+      const domainStatusArr = [];
+
+      for (let i = 0; i < domainSArr?.length; i += 2) {
+        const obj = {
+          domainStatus: domainSArr[i],
+          url: domainSArr[i + 1],
+        };
+        domainStatusArr.push(obj);
+      }
+      setDomainStatusData(domainStatusArr);
+      setLoading(false);
     }
-    setDomainStatusData(domainStatusArr);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -718,7 +720,7 @@ const DomainPage = () => {
       console.log(domainObj, "domainObj");
       setDomainName(domainObj);
       if (domainObj?.domain) {
-        getData(domainObj?.domain);
+        getData(domainObj);
       }
     }
   }, [slug]);
