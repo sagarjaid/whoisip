@@ -810,7 +810,9 @@ const DomainPage = () => {
           <div className="flex gap-2 flex-wrap justify-between items-center sm:items-start">
             <div className="flex flex-col justify-start gap-3">
               <h1 className=" text-2xl font-bold">{domainName?.domain}</h1>
-              <div className="text-xs">{MetaData?.url}</div>
+              <div className="text-xs">
+                {MetaData?.url || `https://${domainName?.domain}`}
+              </div>
               <div className="text-sm">
                 {MetaData?.title || "no title found"}
               </div>
@@ -1193,6 +1195,10 @@ const DomainPage = () => {
             <span>|</span>
             <a href="https://whoisos.com/gdrp" target="_blank">
               GDRP policy
+            </a>
+            <span>|</span>
+            <a href="https://whoisos.com/sitemap.xml" target="_blank">
+              sitemap
             </a>
           </div>
         </div>

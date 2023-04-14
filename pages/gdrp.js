@@ -269,7 +269,11 @@ const GDRP = () => {
             </a>
             <span>|</span>
             <a href="https://whoisos.com/gdrp" target="_blank">
-              GDRP Policy
+              GDRP policy
+            </a>
+            <span>|</span>
+            <a href="https://whoisos.com/sitemap.xml" target="_blank">
+              sitemap
             </a>
           </div>
         </div>
