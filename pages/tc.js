@@ -386,20 +386,23 @@ const TC = () => {
             <a href="https://www.linkedin.com/in/sagarjaid/" target="_blank">
               Made with ❤️ by Sagar Jaid
             </a>
-            <span>|</span>
+            <span className="hidden sm:inline">|</span>
 
             <a href="https://whoisos.com/privacy" target="_blank">
               Privacy Policy
             </a>
-            <span>|</span>
+            <span className="hidden sm:inline">|</span>
+
             <a href="https://whoisos.com/tc" target="_blank">
               Terms and Conditions
             </a>
-            <span>|</span>
+            <span className="hidden sm:inline">|</span>
+
             <a href="https://whoisos.com/gdrp" target="_blank">
               GDRP policy
             </a>
-            <span>|</span>
+            <span className="hidden sm:inline">|</span>
+
             <a href="https://whoisos.com/sitemap.xml" target="_blank">
               sitemap
             </a>
