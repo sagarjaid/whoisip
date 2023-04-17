@@ -42,11 +42,6 @@ const TC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="icon" href="https://whoisos.com/favicon.png" />
-
-        <meta
-          name="google-site-verification"
-          content="Yp9e-xgEgjFSdaOwKgO0bv66QN5ScCpFxlGr0F8qUWk"
-        />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4">
         <nav className="flex row justify-between items-center py-4">

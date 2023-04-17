@@ -98,11 +98,6 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="icon" href="https://whoisos.com/favicon.png" />
-
-        <meta
-          name="google-site-verification"
-          content="Yp9e-xgEgjFSdaOwKgO0bv66QN5ScCpFxlGr0F8qUWk"
-        />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4">
         <nav className="flex row justify-between items-center py-4">
@@ -115,12 +110,12 @@ export default function Home() {
             <ul className="flex row items-center gap-4 cursor-pointer">
               <li className="hidden sd:inline">
                 <a
-                  href="https://www.producthunt.com/posts/scrip-ai?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-scrip&#0045;ai"
+                  href="https://www.producthunt.com/posts/whois_os?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-whois&#0095;os"
                   target="_blank"
                 >
                   <img
+                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=389333&theme=light"
                     className="w-36"
-                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=384573&theme=light"
                   />
                 </a>
               </li>
