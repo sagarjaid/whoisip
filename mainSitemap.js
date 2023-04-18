@@ -53,4 +53,4 @@ function appendToSitemapXml(newSitemapXml) {
   fs.writeFileSync(sitemapFilePath, newSitemapXmlContent);
 }
 
-generateMainSitemap();
+// generateMainSitemap();

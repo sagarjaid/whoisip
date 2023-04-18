@@ -4,14 +4,14 @@ const { format, subDays } = require("date-fns");
 const { writeFile } = require("fs/promises");
 const { existsSync } = require("fs");
 
-const MAX_RECORDS_PER_SITEMAP = 50000;
+const MAX_RECORDS_PER_SITEMAP = 1000;
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://api.sheety.co/5a71675a98cacee735a92ca4416fb6ec/dailySheetApi";
 
-async function generateSitemap(date) {
+async function generateSitemap() {
   try {
-    const formattedDate = format(date, "yyyy-MM-dd");
+    const formattedDate = `2023-04-15`;
     const apiUrl = `${API_URL}/${formattedDate.replace(/-/g, "")}`;
     const response = await axios.get(apiUrl);
     const data = response.data;
