@@ -13,6 +13,7 @@ export const domainArr = [
   "airforce",
   "alsace",
   "am",
+  "ai",
   "amsterdam",
   "analytics",
   "apartments",
