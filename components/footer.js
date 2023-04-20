@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex items-center gap-2 text-sm pt-10">
+    <div className="flex flex-col sm:flex-row  items-center gap-2 text-sm py-10">
       <a href="https://www.linkedin.com/in/sagarjaid/" target="_blank">
         by Sagar Jaid
       </a>
