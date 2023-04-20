@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import Footer from "@/components/footer";
 
 const TC = () => {
   return (
@@ -377,31 +377,7 @@ const TC = () => {
             website are provided free of charge, we will not be liable for any
             loss or damage of any nature.
           </p>
-          <div className="flex items-center gap-2 pt-10">
-            <a href="https://www.linkedin.com/in/sagarjaid/" target="_blank">
-              Made with ❤️ by Sagar Jaid
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/privacy" target="_blank">
-              Privacy Policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/tc" target="_blank">
-              Terms and Conditions
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/gdrp" target="_blank">
-              GDRP policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/sitemap.xml" target="_blank">
-              sitemap
-            </a>
-          </div>
+          <Footer />
         </div>
       </main>
     </>

@@ -3,6 +3,7 @@ import Head from "next/head";
 import { domainArr } from "@/components/domainArr";
 
 import React, { useEffect, useState } from "react";
+import Footer from "@/components/footer";
 const DomainPage = () => {
   const router = useRouter();
   const slug = router.query.domain;
@@ -80,15 +81,14 @@ const DomainPage = () => {
   };
 
   const getData = async (url) => {
+    var options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ domain: url.domain }),
+    };
     if (url) {
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ domain: url.domain }),
-      };
-
       const res1 = await fetch("/api/getWhoisData", options);
       const resWhoisData = await res1.json();
       SetWhoisData(resWhoisData.data);
@@ -114,18 +114,6 @@ const DomainPage = () => {
       SetDNSData(resDNSData.data);
       // console.log(resDNSData, "resDNSData");
 
-      const res6 = await fetch("/api/getDomainData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ domain: url?.name }),
-      });
-      const DomainData = await res6.json();
-
-      SetDomainData(DomainData.data);
-      console.log(DomainData, "resDomainData");
-
       const res7 = await fetch("/api/getHeadersData ", options);
       const resHeaderData = await res7.json();
       SetHeaderData(resHeaderData.data.req);
@@ -147,6 +135,18 @@ const DomainPage = () => {
       setDomainStatusData(domainStatusArr);
       setLoading(false);
     }
+
+    const res6 = await fetch("/api/getDomainData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ domain: url?.name }),
+    });
+    const DomainData = await res6.json();
+
+    SetDomainData(DomainData.data);
+    console.log(DomainData, "resDomainData");
   };
 
   useEffect(() => {
@@ -179,29 +179,46 @@ const DomainPage = () => {
         <meta name="title" content={domainName?.domain} />
         <meta
           name="description"
-          content={domainName?.domain + " " + MetaData?.title}
+          content={`${domainName?.domain} ${MetaData?.title}`}
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://whoisos.com/" />
+        <meta
+          property="og:url"
+          content={`https://whoisos.com/${domainName?.domain}`}
+        />
         <meta property="og:title" content={domainName?.domain} />
         <meta
           property="og:description"
           content={domainName?.domain + " " + MetaData?.title}
         />
-        <meta property="og:image" content={MetaData?.image} />
+        <meta property="og:image" content={MetaData?.image || MetaData?.icon} />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://whoisos.com/" />
+        <meta
+          property="twitter:url"
+          content={`https://whoisos.com/${domainName?.domain}`}
+        />
         <meta property="twitter:title" content={domainName?.domain} />
         <meta
           property="twitter:description"
           content={domainName?.domain + " " + MetaData?.title}
         />
-        <meta property="twitter:image" content={MetaData?.image} />
+        <meta
+          property="twitter:image"
+          content={MetaData?.image || MetaData?.icon}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="icon" href={MetaData?.icon} />
+        <link
+          rel="canonical"
+          href={`https://whoisos.com/${domainName?.domain}`}
+        />
+
+        <link
+          rel="icon"
+          href={MetaData?.icon || "https://whoisos.com/favicon.png"}
+        />
       </Head>
       <main className="m-auto flex max-w-5xl flex-col px-4 ">
         <nav className="flex flex-col w-full gap-6  sm:flex-row  justify-between sm:items-center py-4">
@@ -247,295 +264,365 @@ const DomainPage = () => {
               <div className="text-sm">{MetaData?.title}</div>
               <div className="text-sm">{MetaData?.description}</div>
               <div className="text-xs">
-                Keywords :{" "}
-                {MetaData?.keywords
-                  ? MetaData?.keywords?.map((el) => (
+                <span>{MetaData?.keywords && "Keywords: "}</span>
+                <span>
+                  {MetaData?.keywords &&
+                    MetaData?.keywords?.map((el) => (
                       <span key={el} className="pr-1">
                         {el}
                       </span>
-                    ))
-                  : "no keywords found in meta-data"}
+                    ))}
+                </span>
               </div>
             </div>
 
-            <img
-              src={MetaData?.image}
-              className=" border w-[300px] h-[250px] object-cover"
-            />
+            {MetaData?.image || MetaData?.icon ? (
+              <img
+                src={MetaData?.image || MetaData?.icon}
+                className=" border w-[300px] h-[250px] object-cover"
+              />
+            ) : (
+              <span
+                src={MetaData?.image || MetaData?.icon}
+                className=" border w-[300px] h-[250px] bg-gray-200 flex items-center justify-center"
+              >
+                {domainName?.domain}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col gap-1">
             <div className="text-base underline">
-              About {domainName?.domain}
+              <span>About {domainName?.domain}</span>
             </div>
             <div className="text-sm">
-              The website {domainName?.name} ({domainName?.domain}) was created
-              on {WhoisData?.creationDate || "undefined date"}. The website is
-              owned by{" "}
-              {WhoisData?.registrantName ||
+              {`The website ${domainName?.name} [${
+                domainName?.domain
+              }] was created on ${
+                WhoisData?.creationDate || "unknow date"
+              }. The website is owned by ${
+                WhoisData?.registrantName ||
                 WhoisData?.registrantOrganization ||
-                "undefined"}{" "}
-              which is based in{" "}
-              {WhoisData?.registrantStateProvince || "undefined"}{" "}
-              {WhoisData?.registrantCity || "location"}. The domain is
-              registered with {WhoisData?.registrar || "undefined"}. and has a
-              Domain ID of {WhoisData?.registryDomainId || "undefined"}. The
-              website's domain name {domainName?.domain} is set to expire on{" "}
-              {WhoisData?.registrarRegistrationExpirationDate || "undefined"}.
-              The website's Name Servers are{" "}
-              {DNSData?.NS ? DNSData?.NS[0] : "undefined"} and{" "}
-              {DNSData?.NS ? DNSData?.NS[1] : "undefined"}, which help direct
-              traffic to the website. The information on the website's domain
-              name, registration, and ownership can be found through publicly
-              available records.
+                "unknow"
+              } which is based in ${
+                WhoisData?.registrantStateProvince || "unknow"
+              }
+              ${
+                WhoisData?.registrantCity || "location"
+              }. The domain is registered with ${
+                WhoisData?.registrar || "unknow"
+              }. and has a Domain ID of ${
+                WhoisData?.registryDomainId || "unknow"
+              }. The website's domain name ${
+                domainName?.domain
+              } is set to expire on ${
+                WhoisData?.registrarRegistrationExpirationDate || "unknow"
+              }. The website's Name Servers are ${
+                DNSData?.NS ? DNSData?.NS[0] : "unknow"
+              } and ${
+                DNSData?.NS ? DNSData?.NS[1] : "unknow"
+              }, which help direct traffic to the website. The information on the website's domain name, registration, and ownership can be found through publicly available records.`}
             </div>
           </div>
           <div className="flex gap-3 flex-wrap">
             <div className=" flex flex-col text-sm gap-3 grow">
-              <div className="text-base border-black   border-b-2">
+              <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
                 SSL certificate
               </div>
               <div className="border-b border-black">
-                Domain Name: {SSLData?.subject?.CN || "undefined"}
+                <span>Domain Name: </span>
+                <span>{SSLData?.subject?.CN || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Issuer Country: {SSLData?.issuer?.C || "undefined"}
+                <span>Issuer Country: </span>
+                <span>{SSLData?.issuer?.C || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Issuer Organization: {SSLData?.issuer?.O || "undefined"}
+                <span>Issuer Organization: </span>
+                <span>{SSLData?.issuer?.O || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Issuer CN: {SSLData?.issuer?.CN || "undefined"}
+                <span>Issuer CN: </span>
+                <span>{SSLData?.issuer?.CN || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Other Domains : {SSLData?.subjectaltname || "undefined"}
+                <span>Other Domains : </span>
+                <span>{SSLData?.subjectaltname || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Info Access :{" "}
-                {JSON.stringify(SSLData?.infoAccess) || "undefined"}
+                <span>Info Access : </span>
+                <span>{JSON.stringify(SSLData?.infoAccess) || "unknow"}</span>
               </div>
               <div className="border-b border-black">SSL Version: 2</div>
               <div className="border-b border-black">
-                Issued on:{SSLData?.valid_from || "undefined"}
+                <span>Issued on: </span>
+                <span>{SSLData?.valid_from || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Expires on: {SSLData?.valid_to || "undefined"}
+                <span> Expires on: </span>{" "}
+                <span>{SSLData?.valid_to || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Serial Number: {SSLData?.serialNumber || "undefined"}
+                <span>Serial Number: </span>{" "}
+                <span>{SSLData?.serialNumber || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Public Key Algorithm: {SSLData?.fingerprint || "undefined"}
+                <span>Public Key Algorithm: </span>{" "}
+                <span>{SSLData?.fingerprint || "unknow"}</span>
               </div>
             </div>
             <div className=" flex flex-col text-sm gap-3 grow">
-              <div className="text-base border-black   border-b-2">
+              <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
                 Server location
               </div>
               <div className="border-b border-black">
-                Country Name: {IpLocationData?.country_name || "undefined"}
+                <span>Country Name: </span>
+                <span>{IpLocationData?.country_name || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Region Code: {IpLocationData?.region_code || "undefined"}
+                <span>Region Code: </span>
+                <span>{IpLocationData?.region_code || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Region Name: {IpLocationData?.region_name || "undefined"}
+                <span>Region Name: </span>
+                <span>{IpLocationData?.region_name || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Time Zone: {IpLocationData?.time_zone || "undefined"}
+                <span>Time Zone: </span>
+                <span>{IpLocationData?.time_zone || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                City: {IpLocationData?.city || "undefined"}
+                <span> City: </span>
+                <span>{IpLocationData?.city || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                ISP: {IpLocationData?.isp || "undefined"}
+                <span>ISP: </span>
+                <span>{IpLocationData?.isp || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Zip Code: {IpLocationData?.zip_code || "undefined"}
+                <span>Zip Code: </span>
+                <span>{IpLocationData?.zip_code || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Latitude: {IpLocationData?.latitude || "undefined"}
+                <span>Latitude: </span>
+                <span>{IpLocationData?.latitude || "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Longitude: {IpLocationData?.longitude || "undefined"}
+                <span>Longitude: </span>
+                <span>{IpLocationData?.longitude || "unknow"}</span>
               </div>
             </div>
             <div className=" flex flex-col text-sm gap-3 grow">
-              <div className="text-base border-black   border-b-2">
+              <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
                 Name Server
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS ? DNSData?.NS[0] : "undefined"}
+                <span>Name Server: </span>
+                <span>{DNSData?.NS ? DNSData?.NS[0] : "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS ? DNSData?.NS[1] : "undefined"}
+                <span>Name Server: </span>
+                <span>{DNSData?.NS ? DNSData?.NS[1] : "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS ? DNSData?.NS[2] : "undefined"}
+                <span>Name Server: </span>
+                <span>{DNSData?.NS ? DNSData?.NS[2] : "unknow"}</span>
               </div>
               <div className="border-b border-black">
-                Name Server: {DNSData?.NS ? DNSData?.NS[3] : "undefined"}
+                <span>Name Server: </span>
+                <span>{DNSData?.NS ? DNSData?.NS[3] : "unknow"}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <div className="text-base border-black border-b-2">
-              Whois lookup {domainName?.domain}
+          <div className="flex flex-col">
+            <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
+              <span>Whois lookup </span>
+              <span>{domainName?.domain}</span>
             </div>
             <div className="flex flex-col gap-3 border p-2">
               <div className="text-sm">
-                Domain Name: {WhoisData?.domainName || "undefined"}
+                <span>Domain Name: </span>
+                <span>{WhoisData?.domainName || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Updated Date: {WhoisData?.updatedDate || "undefined"}
+                <span>Updated Date: </span>
+                <span>{WhoisData?.updatedDate || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Creation Date: {WhoisData?.creationDate || "undefined"}
+                <span>Creation Date: </span>
+                <span>{WhoisData?.creationDate || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Expiration Date:{" "}
-                {WhoisData?.registrarRegistrationExpirationDate || "undefined"}
+                <span>Expiration Date: </span>
+                <span>
+                  {WhoisData?.registrarRegistrationExpirationDate || "unknow"}
+                </span>
               </div>
               <div className="text-sm">
-                Domain ID: {WhoisData?.registryDomainId || "undefined"}
-              </div>
-
-              <div className="text-sm">
-                Domain Registrar: {WhoisData?.registrar || "undefined"}
-              </div>
-              <div className="text-sm">
-                Domain Registrar IANA ID:{" "}
-                {WhoisData?.registrarIanaId || "undefined"}
-              </div>
-              <div className="text-sm">
-                Domain Registrar WHOIS Server:{" "}
-                {WhoisData?.creationDate || "undefined"}
+                <span>
+                  Domain ID: <span></span>
+                  {WhoisData?.registryDomainId || "unknow"}
+                </span>
               </div>
 
               <div className="text-sm">
-                Domain Registrar URL:{" "}
-                {WhoisData?.registrarWhoisServer || "undefined"}
+                <span>
+                  Domain Registrar: <span></span>
+                  {WhoisData?.registrar || "unknow"}
+                </span>
+              </div>
+              <div className="text-sm">
+                <span>Domain Registrar IANA ID: </span>
+                <span>{WhoisData?.registrarIanaId || "unknow"}</span>
+              </div>
+              <div className="text-sm">
+                <span>Domain Registrar WHOIS Server: </span>
+                <span>{WhoisData?.creationDate || "unknow"}</span>
               </div>
 
               <div className="text-sm">
-                Domain Registrar Abuse Contact Email:
-                {WhoisData?.registrarAbuseContactEmail || "undefined"}
+                <span>Domain Registrar URL: </span>
+                <span>{WhoisData?.registrarWhoisServer || "unknow"}</span>
               </div>
 
               <div className="text-sm">
-                Domain Registrar Abuse Contact Phone:{" "}
-                {WhoisData?.registrarAbuseContactPhone || "undefined"}
+                <span> Domain Registrar Abuse Contact Email: </span>
+                <span>{WhoisData?.registrarAbuseContactEmail || "unknow"}</span>
+              </div>
+
+              <div className="text-sm">
+                <span>Domain Registrar Abuse Contact Phone: </span>
+                <span>{WhoisData?.registrarAbuseContactPhone || "unknow"}</span>
               </div>
               {domainStatusData &&
                 domainStatusData?.map((el) => (
-                  <div className="text-sm">
-                    Domain Status: {el.domainStatus || "undefined"}
+                  <div key={el.domainStatus} className="text-sm">
+                    <span>Domain Status: </span>
+                    <span>{el.domainStatus || "unknow"}</span>
                     <div className="text-xs">{el.domainStatus && el.url}</div>
                   </div>
                 ))}
               <div className="text-sm">
-                Owner Name:{" "}
-                {WhoisData?.registrantName ||
-                  WhoisData?.registrantOrganization ||
-                  "undefined"}
+                <span>Owner Name: </span>
+                <span>
+                  {WhoisData?.registrantName ||
+                    WhoisData?.registrantOrganization ||
+                    "unknow"}
+                </span>
               </div>
               <div className="text-sm">
-                Owner Organization:{" "}
-                {WhoisData?.registrantOrganization || "undefined"}
+                <span>Owner Organization: </span>
+                <span> {WhoisData?.registrantOrganization || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Owner State/Province:{" "}
-                {WhoisData?.registrantStateProvince || "undefined"}
+                <span> Owner State/Province: </span>
+                <span>{WhoisData?.registrantStateProvince || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Owner Country: {WhoisData?.registrantCity || "undefined"}
+                <span> Owner Country: </span>
+                <span>{WhoisData?.registrantCity || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Owner Postal Code:{" "}
-                {WhoisData?.registrantPostalCode || "undefined"}
+                <span>Owner Postal Code: </span>
+                <span>{WhoisData?.registrantPostalCode || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Website Admin Organization:{" "}
-                {WhoisData?.adminName ||
-                  WhoisData?.adminOrganization ||
-                  "undefined"}
+                <span>Website Admin Organization: </span>
+                <span>
+                  {WhoisData?.adminName ||
+                    WhoisData?.adminOrganization ||
+                    "unknow"}
+                </span>
               </div>
               <div className="text-sm">
-                Website Admin City: {WhoisData?.adminCity || "undefined"}
+                <span>Website Admin City: </span>
+                <span>{WhoisData?.adminCity || "unknow"}</span>
               </div>
 
               <div className="text-sm">
-                Website Admin State/Province:{" "}
-                {WhoisData?.adminStateProvince || "undefined"}
+                <span>Website Admin State/Province: </span>
+                <span>{WhoisData?.adminStateProvince || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Website Admin Country: {WhoisData?.adminCountry || "undefined"}
+                <span>Website Admin Country: </span>
+                <span>{WhoisData?.adminCountry || "unknow"}</span>
               </div>
               <div className="text-sm">
-                Website Admin Postal Code:{" "}
-                {WhoisData?.adminPostalCode || "undefined"}
+                <span> Website Admin Postal Code: </span>
+                <span>{WhoisData?.adminPostalCode || "unknow"}</span>
               </div>
               <div className="text-sm">
-                WHOIS_OS Last Upade:{" "}
-                {WhoisData?.lastUpdateOfWhoisDatabase || "undefined"}
+                <span>WHOIS_OS Last Upade: </span>
+                <span>{WhoisData?.lastUpdateOfWhoisDatabase || "unknow"}</span>
               </div>
             </div>
           </div>
           <div className=" flex flex-col text-sm gap-3 grow">
-            <div className="text-base border-black   border-b-2">
+            <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
               DNS record
             </div>
             <div className="border-b flex flex-wrap gap-2 border-black">
-              NS record:{" "}
-              {DNSData?.NS?.map((el) => <span key={el}>{el}</span>) ||
-                "undefined"}
+              <span> NS record: </span>
+              <span>
+                {DNSData?.NS?.map((el) => <span key={el}>{el}</span>) ||
+                  "unknow"}
+              </span>
             </div>
             <div className="border-b border-black">
-              A record: {DNSData?.A || "undefined"}
+              <span>A record: </span>
+              <span>{DNSData?.A || "unknow"}</span>
             </div>
             <div className="border-b border-black">
-              CNAME record: {DNSData?.CNAME || "undefined"}
+              <span> CNAME record: </span>
+              <span>{DNSData?.CNAME || "unknow"}</span>
             </div>
             <div className="border-b border-black">
-              AAAA record: {DNSData?.AAAA || "undefined"}
+              <span>AAAA record: </span>
+              <span>{DNSData?.AAAA || "unknow"}</span>
             </div>
             <div className="border-b border-black">
-              MX record:{" "}
-              {DNSData?.MX?.map((el) => (
-                <span key={el}>{`${el.exchange} - ${el.priority}`}</span>
-              )) || "undefined"}
+              <span>MX record: </span>
+              <span>
+                {DNSData?.MX?.map((el) => (
+                  <span key={el}>{`${el.exchange} - ${el.priority}`}</span>
+                )) || "unknow"}
+              </span>
             </div>
             <div className="border-b flex flex-wrap gap-2 border-black">
-              TXT record:{" "}
-              {DNSData?.TXT?.map((el) => <span key={el}>{el}</span>) ||
-                "undefined"}
+              <span>TXT record: </span>
+              {DNSData?.TXT?.map((el) => <span key={el}>{el}</span>) || (
+                <span>unknow</span>
+              )}
             </div>
             <div className="border-b border-black">
-              SRV record: {DNSData?.SRV || "undefined"}
+              <span>SRV record: </span>
+              <span>{DNSData?.SRV || "unknow"}</span>
             </div>
             <div className="border-b border-black">
-              PTR record: {DNSData?.PTR || "undefined"}
+              <span>PTR record: </span>
+              <span>{DNSData?.PTR || "unknow"}</span>
             </div>
             <div className="border-b border-black">
-              SOA record: {`${JSON.stringify(DNSData?.SOA)}` || "undefined"}
+              <span>SOA record: </span>
+              <span>{`${JSON.stringify(DNSData?.SOA)}` || "unknow"}</span>
             </div>
           </div>
 
           <div>
-            <div className="text-base border-black   border-b-2">
+            <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
               HTTP Reqvest headers
             </div>
             <textarea
               rows={10}
-              className="w-full p-1 text-sm border h-full"
+              className="w-full p-2 text-sm border h-full"
               value={JSON.stringify(HeaderData)}
             />
           </div>
 
-          <div className="flex flex-col gap-3">
-            <div className="text-base border-black">
-              Alternate domain extensions {domainName?.domain}
+          <div className="flex flex-col gap-6">
+            <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
+              Alternate domain to {domainName?.domain}
             </div>
             <span className="flex text-gray-800 flex-wrap gap-2">
               {domainData &&
@@ -544,16 +631,18 @@ const DomainPage = () => {
                     className="flex w-full sm:w-fit justify-between p-2 border border-black rounded-md items-center"
                     key={el.extenstion}
                   >
-                    <span className="flex flex-col justify-center gap-1">
-                      <span className="text-xl text-green-600 font-bold">
-                        {el.extenstion}
-                      </span>
-                      <span className="ml-1">{el.domain} </span>
+                    <a href={`https://whoisos.com/${el.domain}`}>
+                      <span className="flex flex-col justify-center gap-1">
+                        <span className="text-xl text-green-600 font-bold">
+                          {el.extenstion}
+                        </span>
+                        <span className="ml-1">{el.domain} </span>
 
-                      <span className="ml-1 text-xs text-gray-500">
-                        check the availability on Godaddy
+                        <span className="ml-1 text-xs text-gray-500">
+                          check the availability on Godaddy
+                        </span>
                       </span>
-                    </span>
+                    </a>
                     <span className=" h-full rounded-md flex items-start">
                       <svg
                         className="w-4 h-4"
@@ -578,30 +667,7 @@ const DomainPage = () => {
                 ))}
             </span>
           </div>
-          <div className="flex flex-col sm:flex-row text-sm items-center gap-2 pt-10">
-            <a href="https://www.linkedin.com/in/sagarjaid/" target="_blank">
-              dev: sagar jaid
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/privacy" target="_blank">
-              privacy policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-            <a href="https://whoisos.com/tc" target="_blank">
-              terms and conditions
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/gdrp" target="_blank">
-              GDRP policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/sitemap.xml" target="_blank">
-              sitemap
-            </a>
-          </div>
+          <Footer />
         </div>
       </main>
     </>

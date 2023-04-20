@@ -1,6 +1,7 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { domainArr } from "@/components/domainArr";
+import Footer from "@/components/footer";
 
 export default function Home() {
   const [domain, setDomain] = useState();
@@ -169,31 +170,7 @@ export default function Home() {
               <a href="/careerdekho.ai">careerdekho.ai</a>
             </span>
           </div>
-          <div className="flex text-sm items-center gap-2 pt-10">
-            <a href="https://www.linkedin.com/in/sagarjaid/" target="_blank">
-              dev: sagar jaid
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/privacy" target="_blank">
-              privacy policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/tc" target="_blank">
-              terms and conditions
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/gdrp" target="_blank">
-              GDRP policy
-            </a>
-            <span className="hidden sm:inline">|</span>
-
-            <a href="https://whoisos.com/sitemap.xml" target="_blank">
-              sitemap
-            </a>
-          </div>
+          <Footer />
         </div>
       </main>
     </>
