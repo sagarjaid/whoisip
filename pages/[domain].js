@@ -640,34 +640,35 @@ export async function getServerSideProps(context) {
       body: JSON.stringify({ domain: domainName.domain }),
     };
 
-    const res1 = await fetch("http://whoisos.com/api/getWhoisData", options);
+    const res1 = await fetch("https://whoisos.com/api/getWhoisData", options);
     const resWhoisData = await res1?.json();
     const WhoisData = resWhoisData.data;
+    console.log(WhoisData, "WhoisData");
 
-    const res2 = await fetch("http://whoisos.com/api/getSSLData", options);
+    const res2 = await fetch("https://whoisos.com/api/getSSLData", options);
     const resSSLData = await res2?.json();
     const SSLData = resSSLData.data;
 
-    const res3 = await fetch("http://whoisos.com/api/getMetaData", options);
+    const res3 = await fetch("https://whoisos.com/api/getMetaData", options);
     const resMetaData = await res3?.json();
     const MetaData = resMetaData.data;
 
     const res4 = await fetch(
-      "http://whoisos.com/api/getIpLocationData",
+      "https://whoisos.com/api/getIpLocationData",
       options
     );
     const resIpLocationData = await res4?.json();
     const IpLocationData = resIpLocationData.data;
 
-    const res5 = await fetch("http://whoisos.com/api/getDNSData", options);
+    const res5 = await fetch("https://whoisos.com/api/getDNSData", options);
     const resDNSData = await res5?.json();
     const DNSData = resDNSData.data;
 
-    const res6 = await fetch("http://whoisos.com/api/getHeadersData ", options);
+    const res6 = await fetch("https://whoisos.com/api/getHeadersData ", options);
     const resHeaderData = await res6?.json();
     const HeaderData = resHeaderData.data;
 
-    const res7 = await fetch("http://whoisos.com/api/getDomainData", {
+    const res7 = await fetch("https://whoisos.com/api/getDomainData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
