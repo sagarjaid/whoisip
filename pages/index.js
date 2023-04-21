@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import { domainArr } from "@/components/domainArr";
 import Footer from "@/components/footer";
 
-export default function Home() {
+export default function Home({ domainsArr }) {
   const [domain, setDomain] = useState();
-
   const [value, setValue] = useState();
+  const [thiking, setThiking] = useState(false);
+
   const [err, SetErr] = useState(false);
 
   const handleInput = (e) => {
@@ -18,6 +19,13 @@ export default function Home() {
     if (domainName?.domain) {
       setDomain(domainName?.domain);
     }
+  };
+
+  const handelFeelingLuck = async () => {
+    setThiking(true);
+    const randomIndex = Math.floor(Math.random() * 11);
+    window.location.pathname = domainsArr[randomIndex];
+    setThiking(true);
   };
 
   const handlekeyDown = (e) => {
@@ -120,10 +128,11 @@ export default function Home() {
                   />
                 </a>
               </li>
-              <li className="hover:font-semibold text-sm px-3 py-1 border border-black rounded-full">
-                <a href="/" target="_blank">
-                  I'm feeling Luck!
-                </a>
+              <li
+                onClick={handelFeelingLuck}
+                className="hover:font-semibold text-sm px-3 py-1 border border-black cursor-pointer rounded-full"
+              >
+                {thiking ? "Let me think..." : "I'm Feeling Luck!"}
               </li>
             </ul>
           </span>
@@ -170,9 +179,25 @@ export default function Home() {
               <a href="/careerdekho.ai">careerdekho.ai</a>
             </span>
           </div>
+          <div className="flex flex-col sm:flex-row items-center gap-3 justify-center flex-wrap">
+            {domainsArr &&
+              domainsArr?.map((el) => (
+                <div className="text-blue-500 underline text-xs">
+                  <a href={`http://whoisos.com/${el}`}>{el}</a>
+                </div>
+              ))}
+          </div>
           <Footer />
         </div>
       </main>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const response = await fetch("http://whoisos.com/api/getRandomDomain");
+  const resData = await response.json();
+  const domainsArr = resData.data;
+
+  return { revalidate: 82800, props: { domainsArr } };
 }

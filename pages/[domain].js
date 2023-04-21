@@ -1,28 +1,32 @@
-import { useRouter } from "next/router";
-import Head from "next/head";
 import { domainArr } from "@/components/domainArr";
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import Head from "next/head";
 import Footer from "@/components/footer";
-const DomainPage = () => {
-  const router = useRouter();
-  const slug = router.query.domain;
+
+const DomainPage = (props) => {
+  const {
+    domainName,
+    domainData,
+    WhoisData,
+    SSLData,
+    MetaData,
+    IpLocationData,
+    DNSData,
+    HeaderData,
+    domainStatusData,
+  } = props;
+
+  if (domainName === false)
+    return (
+      <div className="text-center py-10 my-auto">
+        please enter valid domain name...
+      </div>
+    );
 
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const [domainInputUrl, setDomainInputUrl] = useState();
   const [err, SetErr] = useState(false);
-
-  const [domainName, setDomainName] = useState();
-  const [domainData, SetDomainData] = useState();
-  const [WhoisData, SetWhoisData] = useState();
-  const [SSLData, SetSSLData] = useState();
-  const [MetaData, SetMetaData] = useState();
-  const [HeaderData, SetHeaderData] = useState();
-  const [DNSData, SetDNSData] = useState();
-  const [IpLocationData, SetIpLocationData] = useState();
-  const [domainStatusData, setDomainStatusData] = useState();
 
   const handleInput = (e) => {
     console.log(e.target.value);
@@ -79,98 +83,6 @@ const DomainPage = () => {
       name: name,
     };
   };
-
-  const getData = async (url) => {
-    var options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ domain: url.domain }),
-    };
-    if (url) {
-      const res1 = await fetch("/api/getWhoisData", options);
-      const resWhoisData = await res1.json();
-      SetWhoisData(resWhoisData.data);
-      // console.log(resWhoisData, "resWhoisData");
-
-      const res2 = await fetch("/api/getSSLData", options);
-      const resSSLData = await res2.json();
-      SetSSLData(resSSLData.data);
-      // console.log(resSSLData, "resSSLData");
-
-      const res3 = await fetch("/api/getMetaData", options);
-      const resMetaData = await res3.json();
-      SetMetaData(resMetaData.data);
-      // console.log(resMetaData, "resMetaData");
-
-      const res4 = await fetch("/api/getIpLocationData", options);
-      const resIpLocationData = await res4.json();
-      SetIpLocationData(resIpLocationData.data);
-      // console.log(resIpLocationData, "resIpLocationData");
-
-      const res5 = await fetch("/api/getDNSData", options);
-      const resDNSData = await res5.json();
-      SetDNSData(resDNSData.data);
-      // console.log(resDNSData, "resDNSData");
-
-      const res7 = await fetch("/api/getHeadersData ", options);
-      const resHeaderData = await res7.json();
-      SetHeaderData(resHeaderData.data.req);
-      // console.log(resHeaderData, "resIpLocationData");
-
-      const domainStatus = resWhoisData?.data?.domainStatus;
-
-      const domainSArr = domainStatus?.split(" ");
-
-      const domainStatusArr = [];
-
-      for (let i = 0; i < domainSArr?.length; i += 2) {
-        const obj = {
-          domainStatus: domainSArr[i],
-          url: domainSArr[i + 1],
-        };
-        domainStatusArr.push(obj);
-      }
-      setDomainStatusData(domainStatusArr);
-      setLoading(false);
-    }
-
-    const res6 = await fetch("/api/getDomainData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ domain: url?.name }),
-    });
-    const DomainData = await res6.json();
-
-    SetDomainData(DomainData.data);
-    console.log(DomainData, "resDomainData");
-  };
-
-  useEffect(() => {
-    console.log(slug, "domain EF");
-    if (slug) {
-      const domainObj = getDomainName(slug, domainArr);
-      console.log(domainObj, "domainObj");
-      setDomainName(domainObj);
-      if (domainObj?.domain) {
-        getData(domainObj);
-      }
-    }
-  }, [slug]);
-
-  if (loading) {
-    <div className="text-center my-auto">Loading...</div>;
-  }
-
-  if (domainName === false)
-    return (
-      <div className="text-center my-auto">
-        please enter valid domain name...
-      </div>
-    );
 
   return (
     <>
@@ -675,3 +587,124 @@ const DomainPage = () => {
 };
 
 export default DomainPage;
+
+const getDomainName = (url, suffixes) => {
+  // Find & remove protocol (http, ftp, etc.) and get domain
+  let domain = "";
+  if (url.includes("://")) {
+    domain = url.split("/")[2];
+  } else {
+    domain = url.split("/")[0];
+  }
+
+  // Remove port number if exists
+  domain = domain.split(":")[0];
+
+  // Remove www. if exists
+  domain = domain.replace(/^www\./i, "");
+
+  // Check if domain name ends with any of the specified suffixes
+  const validSuffix = suffixes.some((suffix) => domain.endsWith(suffix));
+  if (!validSuffix || domain.includes(" ")) {
+    return false;
+  }
+
+  const domainName = domain;
+
+  // Get name without top-level domain
+
+  const parts = domainName?.split(".");
+  const name = parts.slice(0, -1).join(".");
+  return {
+    domain: domainName,
+    name: name,
+  };
+};
+
+export async function getServerSideProps(context) {
+  const domain = context.params.domain;
+  const domainName = getDomainName(domain, domainArr);
+
+  console.log(domainName, "domainName");
+
+  if (domainName === false) {
+    return { props: { domainName } };
+  }
+
+  if (domainName !== false) {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ domain: domainName.domain }),
+    };
+
+    const res1 = await fetch("http://whoisos.com/api/getWhoisData", options);
+    const resWhoisData = await res1?.json();
+    const WhoisData = resWhoisData.data;
+
+    const res2 = await fetch("http://whoisos.com/api/getSSLData", options);
+    const resSSLData = await res2?.json();
+    const SSLData = resSSLData.data;
+
+    const res3 = await fetch("http://whoisos.com/api/getMetaData", options);
+    const resMetaData = await res3?.json();
+    const MetaData = resMetaData.data;
+
+    const res4 = await fetch(
+      "http://whoisos.com/api/getIpLocationData",
+      options
+    );
+    const resIpLocationData = await res4?.json();
+    const IpLocationData = resIpLocationData.data;
+
+    const res5 = await fetch("http://whoisos.com/api/getDNSData", options);
+    const resDNSData = await res5?.json();
+    const DNSData = resDNSData.data;
+
+    const res6 = await fetch("http://whoisos.com/api/getHeadersData ", options);
+    const resHeaderData = await res6?.json();
+    const HeaderData = resHeaderData.data;
+
+    const res7 = await fetch("http://whoisos.com/api/getDomainData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ domain: domainName?.name }),
+    });
+    const resDomainData = await res7?.json();
+    const domainData = resDomainData.data;
+
+    // NS call
+
+    const domainStatus = resWhoisData?.data?.domainStatus;
+
+    const domainSArr = domainStatus?.split(" ");
+
+    const domainStatusData = [];
+
+    for (let i = 0; i < domainSArr?.length; i += 2) {
+      const obj = {
+        domainStatus: domainSArr[i],
+        url: domainSArr[i + 1],
+      };
+      domainStatusData.push(obj);
+    }
+
+    return {
+      props: {
+        domainName: domainName,
+        WhoisData: WhoisData || null,
+        SSLData: SSLData || null,
+        MetaData: MetaData || null,
+        IpLocationData: IpLocationData || null,
+        DNSData: DNSData || null,
+        HeaderData: HeaderData || null,
+        domainData: domainData || null,
+        domainStatusData: domainStatusData || null,
+      },
+    };
+  }
+}
