@@ -194,10 +194,39 @@ export default function Home({ domainsArr }) {
   );
 }
 
-export async function getStaticProps() {
-  const response = await fetch("http://whoisos.com/api/getRandomDomain");
-  const resData = await response.json();
-  const domainsArr = resData.data;
+const generateDomain = () => {
+  const characters = "abcdefghijklmnopqrstuvwxyz";
+  let domain = "";
 
-  return { revalidate: 82800, props: { domainsArr } };
+  // Generate a random 4-character domain name
+  for (let i = 0; i < 2; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    domain += characters[randomIndex];
+  }
+
+  return `${domain}.com`;
+};
+
+export async function getServerSideProps() {
+  const domains = [];
+
+  // Generate 10 random domain names and add them to the array
+  for (let i = 0; i < 10; i++) {
+    const domain = generateDomain();
+    domains.push(domain);
+  }
+
+  // const response = await fetch("http://localhost:3000/api/getRandomDomain", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+  // const resData = await response?.json();
+  // console.log(resData);
+  // const domainsArr = resData?.data || domains;
+
+  const domainsArr = domains;
+
+  return { props: { domainsArr } };
 }
