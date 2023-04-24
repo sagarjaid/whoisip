@@ -6,7 +6,6 @@ import Footer from "@/components/footer";
 const DomainPage = (props) => {
   const {
     domainName,
-    domainData,
     WhoisData,
     SSLData,
     MetaData,
@@ -208,32 +207,21 @@ const DomainPage = (props) => {
               <span>About {domainName?.domain}</span>
             </div>
             <div className="text-sm">
-              {`The website ${domainName?.name} [${
-                domainName?.domain
-              }] was created on ${
-                WhoisData?.creationDate || "unknow date"
-              }. The website is owned by ${
-                WhoisData?.registrantName ||
+              {`The website ${domainName?.name} [${domainName?.domain
+                }] was created on ${WhoisData?.creationDate || "unknow date"
+                }. The website is owned by ${WhoisData?.registrantName ||
                 WhoisData?.registrantOrganization ||
                 "unknow"
-              } which is based in ${
-                WhoisData?.registrantStateProvince || "unknow"
-              }
-              ${
-                WhoisData?.registrantCity || "location"
-              }. The domain is registered with ${
-                WhoisData?.registrar || "unknow"
-              }. and has a Domain ID of ${
-                WhoisData?.registryDomainId || "unknow"
-              }. The website's domain name ${
-                domainName?.domain
-              } is set to expire on ${
-                WhoisData?.registrarRegistrationExpirationDate || "unknow"
-              }. The website's Name Servers are ${
-                DNSData?.NS ? DNSData?.NS[0] : "unknow"
-              } and ${
-                DNSData?.NS ? DNSData?.NS[1] : "unknow"
-              }, which help direct traffic to the website. The information on the website's domain name, registration, and ownership can be found through publicly available records.`}
+                } which is based in ${WhoisData?.registrantStateProvince || "unknow"
+                }
+              ${WhoisData?.registrantCity || "location"
+                }. The domain is registered with ${WhoisData?.registrar || "unknow"
+                }. and has a Domain ID of ${WhoisData?.registryDomainId || "unknow"
+                }. The website's domain name ${domainName?.domain
+                } is set to expire on ${WhoisData?.registrarRegistrationExpirationDate || "unknow"
+                }. The website's Name Servers are ${DNSData?.NS ? DNSData?.NS[0] : "unknow"
+                } and ${DNSData?.NS ? DNSData?.NS[1] : "unknow"
+                }, which help direct traffic to the website. The information on the website's domain name, registration, and ownership can be found through publicly available records.`}
             </div>
           </div>
           <div className="flex gap-3 flex-wrap">
@@ -531,54 +519,6 @@ const DomainPage = (props) => {
               value={JSON.stringify(HeaderData)}
             />
           </div>
-
-          <div className="flex flex-col gap-6">
-            <div className="text-base bg-black text-white pl-2 p-1.5 rounded-sm">
-              Alternate domain to {domainName?.domain}
-            </div>
-            <span className="flex text-gray-800 flex-wrap gap-2">
-              {domainData &&
-                domainData?.map((el) => (
-                  <div
-                    className="flex w-full sm:w-fit justify-between p-2 border border-black rounded-md items-center"
-                    key={el.extenstion}
-                  >
-                    <a href={`https://whoisos.com/${el.domain}`}>
-                      <span className="flex flex-col justify-center gap-1">
-                        <span className="text-xl text-green-600 font-bold">
-                          {el.extenstion}
-                        </span>
-                        <span className="ml-1">{el.domain} </span>
-
-                        <span className="ml-1 text-xs text-gray-500">
-                          check the availability on Godaddy
-                        </span>
-                      </span>
-                    </a>
-                    <span className=" h-full rounded-md flex items-start">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          clipRule="evenodd"
-                          fillRule="evenodd"
-                          d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-                        />
-                        <path
-                          clipRule="evenodd"
-                          fillRule="evenodd"
-                          d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                ))}
-            </span>
-          </div>
           <Footer />
         </div>
       </main>
@@ -668,16 +608,6 @@ export async function getServerSideProps(context) {
     const resHeaderData = await res6?.json();
     const HeaderData = resHeaderData.data;
 
-    const res7 = await fetch("https://whoisos.com/api/getDomainData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ domain: domainName?.name }),
-    });
-    const resDomainData = await res7?.json();
-    const domainData = resDomainData.data;
-
     // NS call
 
     const domainStatus = resWhoisData?.data?.domainStatus;
@@ -703,7 +633,6 @@ export async function getServerSideProps(context) {
         IpLocationData: IpLocationData || null,
         DNSData: DNSData || null,
         HeaderData: HeaderData || null,
-        domainData: domainData || null,
         domainStatusData: domainStatusData || null,
       },
     };
