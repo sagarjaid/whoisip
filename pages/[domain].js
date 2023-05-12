@@ -207,21 +207,32 @@ const DomainPage = (props) => {
               <span>About {domainName?.domain}</span>
             </div>
             <div className="text-sm">
-              {`The website ${domainName?.name} [${domainName?.domain
-                }] was created on ${WhoisData?.creationDate || "unknow date"
-                }. The website is owned by ${WhoisData?.registrantName ||
+              {`The website ${domainName?.name} [${
+                domainName?.domain
+              }] was created on ${
+                WhoisData?.creationDate || "unknow date"
+              }. The website is owned by ${
+                WhoisData?.registrantName ||
                 WhoisData?.registrantOrganization ||
                 "unknow"
-                } which is based in ${WhoisData?.registrantStateProvince || "unknow"
-                }
-              ${WhoisData?.registrantCity || "location"
-                }. The domain is registered with ${WhoisData?.registrar || "unknow"
-                }. and has a Domain ID of ${WhoisData?.registryDomainId || "unknow"
-                }. The website's domain name ${domainName?.domain
-                } is set to expire on ${WhoisData?.registrarRegistrationExpirationDate || "unknow"
-                }. The website's Name Servers are ${DNSData?.NS ? DNSData?.NS[0] : "unknow"
-                } and ${DNSData?.NS ? DNSData?.NS[1] : "unknow"
-                }, which help direct traffic to the website. The information on the website's domain name, registration, and ownership can be found through publicly available records.`}
+              } which is based in ${
+                WhoisData?.registrantStateProvince || "unknow"
+              }
+              ${
+                WhoisData?.registrantCity || "location"
+              }. The domain is registered with ${
+                WhoisData?.registrar || "unknow"
+              }. and has a Domain ID of ${
+                WhoisData?.registryDomainId || "unknow"
+              }. The website's domain name ${
+                domainName?.domain
+              } is set to expire on ${
+                WhoisData?.registrarRegistrationExpirationDate || "unknow"
+              }. The website's Name Servers are ${
+                DNSData?.NS ? DNSData?.NS[0] : "unknow"
+              } and ${
+                DNSData?.NS ? DNSData?.NS[1] : "unknow"
+              }, which help direct traffic to the website. The information on the website's domain name, registration, and ownership can be found through publicly available records.`}
             </div>
           </div>
           <div className="flex gap-3 flex-wrap">
@@ -580,14 +591,89 @@ export async function getServerSideProps(context) {
       body: JSON.stringify({ domain: domainName.domain }),
     };
 
-    const res1 = await fetch("https://whoisos.com/api/getWhoisData", options);
-    const resWhoisData = await res1?.json();
-    const WhoisData = resWhoisData.data;
-    console.log(WhoisData, "WhoisData");
+    // const res1 = await fetch("https://whoisos.com/api/getWhoisData", options);
+    // const resWhoisData = await res1?.json();
+    // const WhoisData = resWhoisData.data;
 
-    const res2 = await fetch("https://whoisos.com/api/getSSLData", options);
-    const resSSLData = await res2?.json();
-    const SSLData = resSSLData.data;
+    let WhoisData;
+
+    // Create an instance of AbortController
+    const controller = new AbortController();
+
+    // Set a timeout of 5 seconds
+    const timeout = setTimeout(() => {
+      controller.abort(); // Cancel the Fetch API call
+      console.log("WhoisData Request timed out");
+    }, 5000);
+
+    // Make the Fetch API call
+    fetch("https://whoisos.com/api/getWhoisData", {
+      ...options,
+      signal: controller.signal,
+    })
+      .then((response) => {
+        clearTimeout(timeout); // Clear the timeout if the request is successful
+        return response.json();
+      })
+      .then((data) => {
+        WhoisData = data.data;
+        console.log(WhoisData, "WhoisData");
+      })
+      .catch((error) => {
+        if (error.name === "AbortError") {
+          console.log("Request WhoisData aborted");
+        } else {
+          console.log(" WhoisData Error:", error);
+        }
+      });
+
+    let SSLData;
+
+    // console.log(WhoisData?.data?.domainName, "WhoisData?.domainName");
+    // if (WhoisData?.domainName) {
+
+    // Create an instance of AbortController
+    const controller2 = new AbortController();
+
+    // Set a timeout of 5 seconds
+    const timeout2 = setTimeout(() => {
+      controller2.abort(); // Cancel the Fetch API call
+      console.log("Request timed out");
+    }, 5000);
+
+    // Make the Fetch API call
+    fetch("https://whoisos.com/api/getSSLData", {
+      ...options,
+      signal: controller2.signal,
+    })
+      .then((response) => {
+        clearTimeout(timeout2); // Clear the timeout if the request is successful
+        return response.json();
+      })
+      .then((data) => {
+        SSLData = data.data;
+        console.log("Response:", data);
+      })
+      .catch((error) => {
+        if (error.name === "AbortError") {
+          console.log("Request aborted");
+        } else {
+          console.log("Error:", error);
+        }
+      });
+
+    // const res2 = await fetch("https://whoisos.com/api/getSSLData", options);
+    // const resSSLData = await res2?.json();
+    // const SSLData = resSSLData.data;
+
+    //   const res2 = fetch("https://whoisos.com/api/getSSLData", options);
+
+    //   console.log(res2, "res2");
+    //   if (res2.status == 200) {
+    //     const resSSLData = await res2?.json()
+    //     SSLData = resSSLData.data;
+    //   }
+    // }
 
     const res3 = await fetch("https://whoisos.com/api/getMetaData", options);
     const resMetaData = await res3?.json();
@@ -604,17 +690,22 @@ export async function getServerSideProps(context) {
     const resDNSData = await res5?.json();
     const DNSData = resDNSData.data;
 
-    const res6 = await fetch("https://whoisos.com/api/getHeadersData ", options);
+    const res6 = await fetch(
+      "https://whoisos.com/api/getHeadersData ",
+      options
+    );
     const resHeaderData = await res6?.json();
     const HeaderData = resHeaderData.data;
 
     // NS call
 
-    const domainStatus = resWhoisData?.data?.domainStatus;
+    let domainStatusData;
+
+    const domainStatus = WhoisData?.domainStatus;
 
     const domainSArr = domainStatus?.split(" ");
 
-    const domainStatusData = [];
+    domainStatusData = [];
 
     for (let i = 0; i < domainSArr?.length; i += 2) {
       const obj = {
@@ -627,13 +718,13 @@ export async function getServerSideProps(context) {
     return {
       props: {
         domainName: domainName,
-        WhoisData: WhoisData || null,
-        SSLData: SSLData || null,
-        MetaData: MetaData || null,
-        IpLocationData: IpLocationData || null,
-        DNSData: DNSData || null,
-        HeaderData: HeaderData || null,
-        domainStatusData: domainStatusData || null,
+        WhoisData: WhoisData ? WhoisData : null,
+        SSLData: SSLData ? SSLData : null,
+        MetaData: MetaData ? MetaData : null,
+        IpLocationData: IpLocationData ? IpLocationData : null,
+        DNSData: DNSData ? DNSData : null,
+        HeaderData: HeaderData ? HeaderData : null,
+        domainStatusData: domainStatusData ? domainStatusData : null,
       },
     };
   }
